@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificationScanner.cs" />
+    <Compile Include="CertInfo.cs" />
+    <Compile Include="CertReader.cs" />
+    <Compile Include="ICertificationScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

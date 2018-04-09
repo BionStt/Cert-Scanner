@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using CertScanner.Core;
+using Edi.ExtensionMethods;
 using GalaSoft.MvvmLight;
 
 namespace CertScanner.WindowsDesktop.ViewModel
@@ -16,6 +19,16 @@ namespace CertScanner.WindowsDesktop.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        public ICertificationScanner CertificationScanner { get; set; }
+
+        private ObservableCollection<CertInfo> _systemStoreCerts;
+
+        public ObservableCollection<CertInfo> SystemStoreCerts
+        {
+            get { return _systemStoreCerts; }
+            set { _systemStoreCerts = value; RaisePropertyChanged(); }
+        }
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -29,6 +42,11 @@ namespace CertScanner.WindowsDesktop.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+            /// 
+            /// 
+            CertificationScanner = new SystemStorageCertificationScanner();
+            var certs = CertificationScanner.ScanCertificates();
+            SystemStoreCerts = certs.ToObservableCollection();
         }
     }
 }
