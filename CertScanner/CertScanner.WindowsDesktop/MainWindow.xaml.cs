@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CertScanner.WindowsDesktop.ViewModel;
 using MahApps.Metro.Controls;
 
 namespace CertScanner.WindowsDesktop
@@ -21,9 +22,17 @@ namespace CertScanner.WindowsDesktop
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        public MainViewModel ViewModel { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            ViewModel = DataContext as MainViewModel;
+        }
+
+        private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.InitDataAsync();
         }
     }
 }

@@ -7,6 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         GlowBrush="#0072BC"
+        Loaded="MainWindow_OnLoaded"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="Certification File Scanner for Windows" Height="800" Width="1280">
     <Grid>
@@ -14,14 +15,15 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Margin="10">
+        
+        <Grid Grid.Row="0" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
-                <Button Content="Refresh" Margin="0,0,10,0" />
+                <Button Content="Refresh" Margin="0,0,10,0" Command="{Binding CommandRefresh}" />
                 <Button Content="Options" Margin="0,0,10,0" />
                 <Button x:Name="BtnOpenCertMgr" Content="Windows Certification Manager" Command="{Binding CommandOpenCertMgr}" />
             </StackPanel>
@@ -37,5 +39,11 @@
         <Grid Grid.Row="1" Background="{StaticResource AccentColorBrush}">
             <TextBlock Text="{Binding SystemInfo}" Foreground="White" Margin="10,5" />
         </Grid>
+        
+        <Controls:ProgressRing IsActive="{Binding IsBusy}" 
+                               Grid.Row="0" 
+                               Foreground="{StaticResource AccentColorBrush2}"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" />
     </Grid>
 </Controls:MetroWindow>
