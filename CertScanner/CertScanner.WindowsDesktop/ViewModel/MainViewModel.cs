@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -9,6 +10,8 @@ namespace CertScanner.WindowsDesktop.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        public string SystemInfo { get; set; }
+
         public SystemStorageCertificationScanner CertificationScanner { get; set; }
 
         private ObservableCollection<CertInfo> _systemStoreCerts;
@@ -22,6 +25,8 @@ namespace CertScanner.WindowsDesktop.ViewModel
         public MainViewModel()
         {
             CertificationScanner = new SystemStorageCertificationScanner();
+            SystemInfo = $"MachineName: {Environment.MachineName}, OS Version: {Environment.OSVersion}";
+
             SystemStoreCerts = CertificationScanner.ScanCertificates().ToObservableCollection();
         }
     }

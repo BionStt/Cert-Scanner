@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Content="System Certification Store" FontWeight="Bold" />
         <DataGrid AutoGenerateColumns="True" 
@@ -22,5 +23,6 @@
                   Grid.Row="1"
                   ItemsSource="{Binding SystemStoreCerts}">
         </DataGrid>
+        <TextBlock Grid.Row="2" Text="{Binding SystemInfo}" />
     </Grid>
 </Controls:MetroWindow>

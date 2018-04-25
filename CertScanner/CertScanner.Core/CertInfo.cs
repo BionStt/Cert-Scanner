@@ -12,9 +12,13 @@ namespace CertScanner.Core
 
         public string Issuer { get; set; }
 
-        public DateTime ExpDate { get; set; }
+        public string SerialNumber { get; set; }
+
+        public int Version { get; set; }
 
         public string StoreLocation { get; set; }
+
+        public DateTime ExpDate { get; set; }
 
         public bool IsExpired => ExpDate < DateTime.Now;
     }

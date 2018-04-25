@@ -18,6 +18,8 @@ namespace CertScanner.Core
                     {
                         FriendlyName = storeCertificate.FriendlyName,
                         Issuer = storeCertificate.Issuer,
+                        Version = storeCertificate.Version,
+                        SerialNumber = storeCertificate.SerialNumber,
                         StoreLocation = loc.ToString(),
                         ExpDate = DateTime.Parse(storeCertificate.GetExpirationDateString())
                     };

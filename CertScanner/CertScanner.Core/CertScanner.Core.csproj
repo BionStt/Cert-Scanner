@@ -43,6 +43,7 @@
     <Compile Include="CertificationScanner.cs" />
     <Compile Include="CertInfo.cs" />
     <Compile Include="CertReader.cs" />
+    <Compile Include="FileSystemCertificationScanner.cs" />
     <Compile Include="ICertificationScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemStorageCertificationScanner.cs" />
