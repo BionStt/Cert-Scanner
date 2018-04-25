@@ -12,6 +12,8 @@ namespace CertScanner.Core
 
         public string Issuer { get; set; }
 
-        public string ExpDate { get; set; }
+        public DateTime ExpDate { get; set; }
+
+        public string StoreLocation { get; set; }
     }
 }

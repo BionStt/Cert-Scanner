@@ -1,16 +1,26 @@
-﻿<Window x:Class="CertScanner.WindowsDesktop.MainWindow"
+﻿<Controls:MetroWindow x:Class="CertScanner.WindowsDesktop.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CertScanner.WindowsDesktop"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
+        GlowBrush="#0072BC"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Certification File Scanner for Windows" Height="720" Width="1024">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Content="System Certification Store" FontWeight="Bold" />
         <DataGrid AutoGenerateColumns="True" 
+                  BorderThickness="1" 
+                  BorderBrush="#CECECE"
+                  IsReadOnly="True"
+                  Grid.Row="1"
                   ItemsSource="{Binding SystemStoreCerts}">
-
         </DataGrid>
     </Grid>
-</Window>
+</Controls:MetroWindow>

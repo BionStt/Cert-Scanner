@@ -1,25 +1,15 @@
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using CertScanner.Core;
 using Edi.ExtensionMethods;
 using GalaSoft.MvvmLight;
 
 namespace CertScanner.WindowsDesktop.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        public ICertificationScanner CertificationScanner { get; set; }
+        public SystemStorageCertificationScanner CertificationScanner { get; set; }
 
         private ObservableCollection<CertInfo> _systemStoreCerts;
 
@@ -29,9 +19,6 @@ namespace CertScanner.WindowsDesktop.ViewModel
             set { _systemStoreCerts = value; RaisePropertyChanged(); }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
         public MainViewModel()
         {
             ////if (IsInDesignMode)
@@ -43,10 +30,11 @@ namespace CertScanner.WindowsDesktop.ViewModel
             ////    // Code runs "for real"
             ////}
             /// 
+            ///
             /// 
             CertificationScanner = new SystemStorageCertificationScanner();
-            var certs = CertificationScanner.ScanCertificates();
-            SystemStoreCerts = certs.ToObservableCollection();
+            var certs1 = CertificationScanner.ScanCertificates();
+            SystemStoreCerts = certs1.ToObservableCollection();
         }
     }
 }
