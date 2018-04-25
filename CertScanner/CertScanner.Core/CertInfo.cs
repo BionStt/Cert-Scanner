@@ -15,5 +15,7 @@ namespace CertScanner.Core
         public DateTime ExpDate { get; set; }
 
         public string StoreLocation { get; set; }
+
+        public bool IsExpired => ExpDate < DateTime.Now;
     }
 }

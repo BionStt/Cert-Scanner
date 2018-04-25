@@ -21,20 +21,8 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
-            /// 
-            ///
-            /// 
             CertificationScanner = new SystemStorageCertificationScanner();
-            var certs1 = CertificationScanner.ScanCertificates();
-            SystemStoreCerts = certs1.ToObservableCollection();
+            SystemStoreCerts = CertificationScanner.ScanCertificates().ToObservableCollection();
         }
     }
 }
