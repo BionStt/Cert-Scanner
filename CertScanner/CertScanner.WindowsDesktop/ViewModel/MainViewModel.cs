@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -108,15 +109,27 @@ namespace CertScanner.WindowsDesktop.ViewModel
         {
             IsBusy = true;
 
-            await Task.Delay(2000); // for UI debug
+            // 1. Clear Old Info
             SystemStoreCertsResult = new ObservableCollection<CertInfo>();
-            var sysCerts = SysCertificationScanner.ScanCertificates();
-            SystemStoreCertsResult = sysCerts.ToObservableCollection();
+            FileSystemCertsResult = new ObservableCollection<CertInfo>();
 
-            var fsCerts = FileSystemCertificationScanner.ScanCertificates();
-            FileSystemCertsResult = fsCerts.ToObservableCollection();
+            // 2. Create Scanning Tasks
+            var tasks = new List<Task>();
 
-            await Task.Yield();
+            var t1 = Task.Run(() =>
+            {
+                var sysCerts = SysCertificationScanner.ScanCertificates();
+                SystemStoreCertsResult = sysCerts.ToObservableCollection();
+            });
+
+            var t2 = Task.Run(() =>
+            {
+                var fsCerts = FileSystemCertificationScanner.ScanCertificates();
+                FileSystemCertsResult = fsCerts.ToObservableCollection();
+            });
+
+            tasks.AddRange(new[] { t1, t2 });
+            await Task.WhenAll(tasks);
 
             IsBusy = false;
         }
