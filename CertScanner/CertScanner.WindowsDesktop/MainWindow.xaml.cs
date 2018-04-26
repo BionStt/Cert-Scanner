@@ -46,5 +46,10 @@ namespace CertScanner.WindowsDesktop
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+
+        private void BtnCfgScanDir_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.IsPathConfigWindowOpen = true;
+        }
     }
 }

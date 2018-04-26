@@ -31,9 +31,10 @@ namespace CertScanner.Core
                             FriendlyName = cert.FriendlyName,
                             Issuer = cert.Issuer,
                             Version = cert.Version,
-                            SerialNumber = cert.SerialNumber,
+                            Thumbprint = cert.Thumbprint,
                             StoreLocation = certFile,
-                            ExpDate = DateTime.Parse(cert.GetExpirationDateString())
+                            ExpDate = DateTime.Parse(cert.GetExpirationDateString()),
+                            Abstract = cert.ToString()
                         };
                         yield return certInfo;
                     }

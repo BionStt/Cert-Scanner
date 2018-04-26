@@ -8,11 +8,13 @@ namespace CertScanner.Core
 {
     public class CertInfo
     {
+        public string Subject { get; set; }
+
         public string FriendlyName { get; set; }
 
         public string Issuer { get; set; }
 
-        public string SerialNumber { get; set; }
+        public string Thumbprint { get; set; }
 
         public int Version { get; set; }
 
@@ -21,5 +23,7 @@ namespace CertScanner.Core
         public DateTime ExpDate { get; set; }
 
         public bool IsExpired => ExpDate < DateTime.Now;
+
+        public string Abstract { get; set; }
     }
 }

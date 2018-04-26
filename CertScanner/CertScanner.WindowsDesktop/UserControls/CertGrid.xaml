@@ -7,6 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <DataGrid AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  ClipboardCopyMode="IncludeHeader" 
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CertGrid}}, Path=ItemsSource, Mode=OneWay}">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsExpired}" Value="True">
+                            <Setter Property="Background" Value="#AD0000" />
+                            <Setter Property="Foreground" Value="#FFFFFF" />
+                        </DataTrigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource AccentColorBrush2}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" Width="2*" />
+                <DataGridTextColumn Header="Friendly Name" Binding="{Binding FriendlyName}" Width="2*" />
+                <DataGridTextColumn Header="Issuer" Binding="{Binding Issuer}" Width="3*" />
+                <DataGridTextColumn Header="Version" Binding="{Binding Version}" Width="50" />
+                <DataGridTextColumn Header="Location" Binding="{Binding StoreLocation}" Width="160" />
+                <DataGridTextColumn Header="Expire Date" Binding="{Binding ExpDate}" Width="180" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

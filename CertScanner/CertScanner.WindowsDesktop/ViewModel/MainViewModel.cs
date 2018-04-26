@@ -38,6 +38,8 @@ namespace CertScanner.WindowsDesktop.ViewModel
         }
 
         private string _version;
+        private string _scannerFolderPaths;
+        private bool _isPathConfigWindowOpen;
 
         public string Version
         {
@@ -49,6 +51,14 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         public RelayCommand CommandRefresh { get; set; }
 
+        public RelayCommand CommandSavePath { get; set; }
+
+        public string ScannerFolderPaths
+        {
+            get => _scannerFolderPaths;
+            set { _scannerFolderPaths = value; RaisePropertyChanged(); }
+        }
+
         public bool IsBusy
         {
             get => _isBusy;
@@ -59,22 +69,39 @@ namespace CertScanner.WindowsDesktop.ViewModel
             }
         }
 
+        public bool IsPathConfigWindowOpen
+        {
+            get => _isPathConfigWindowOpen;
+            set { _isPathConfigWindowOpen = value; RaisePropertyChanged(); }
+        }
+
         public MainViewModel()
         {
             Version = GetType().Assembly.GetName().Version.ToString();
 
             SysCertificationScanner = new SystemStorageCertificationScanner();
             FileSystemCertificationScanner = new FileSystemCertificationScanner();
-            FileSystemCertificationScanner.TargetPaths.Add(@"C:\Certs"); // for debug
+
+            ScannerFolderPaths = @"C:\Certs;D:\Something"; // for debug
+
+            var dirs = ScannerFolderPaths.Split(';');
+            FileSystemCertificationScanner.TargetPaths.AddRange(dirs);
 
             SystemInfo = $"MachineName: {Environment.MachineName}, OS Version: {Environment.OSVersion}";
             CommandOpenCertMgr = new RelayCommand(() => { Process.Start("certmgr.msc"); });
             CommandRefresh = new RelayCommand(async () => { await RefreshDataAsync(); });
+            CommandSavePath = new RelayCommand(() => { SavePath(); });
         }
 
         public async Task InitDataAsync()
         {
             await RefreshDataAsync();
+        }
+
+        private void SavePath()
+        {
+            // TODO
+            IsPathConfigWindowOpen = false;
         }
 
         private async Task RefreshDataAsync()

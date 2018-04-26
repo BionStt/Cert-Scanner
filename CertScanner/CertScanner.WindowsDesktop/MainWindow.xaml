@@ -8,6 +8,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:helpers="clr-namespace:CertScanner.WindowsDesktop.Helpers"
         xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+        xmlns:userControls="clr-namespace:CertScanner.WindowsDesktop.UserControls"
         mc:Ignorable="d"
         GlowBrush="{DynamicResource AccentColorBrush}"
         Loaded="MainWindow_OnLoaded"
@@ -39,48 +40,20 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
-                <Button Content="Refresh" Margin="0,0,10,0" Command="{Binding CommandRefresh}" />
-                <Button Content="Options" Margin="0,0,10,0" />
+                <Button Content="Refresh" Command="{Binding CommandRefresh}" />
+                <Border Width="1" Background="#CECECE" Height="22" Margin="10,0" />
                 <Button x:Name="BtnOpenCertMgr" Content="Windows Certification Manager" Command="{Binding CommandOpenCertMgr}" />
             </StackPanel>
 
             <ScrollViewer Grid.Row="1" >
                 <StackPanel>
-                    <Expander Header="System Store Certificates" IsExpanded="True">
-                        <DataGrid AutoGenerateColumns="False" 
-                                  IsReadOnly="True"
-                                  ClipboardCopyMode="IncludeHeader" 
-                                  ItemsSource="{Binding SystemStoreCertsResult}">
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsExpired}" Value="True">
-                                            <Setter Property="Background" Value="#AD0000" />
-                                            <Setter Property="Foreground" Value="#FFFFFF" />
-                                        </DataTrigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#84BEA5" />
-                                            <Setter Property="Foreground" Value="#333" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Friendly Name" Binding="{Binding FriendlyName}" Width="2*" />
-                                <DataGridTextColumn Header="Issuer" Binding="{Binding Issuer}" Width="3*" />
-                                <DataGridTextColumn Header="Serial Number" Binding="{Binding SerialNumber}" Width="120" />
-                                <DataGridTextColumn Header="Ver" Binding="{Binding Version}" Width="50" />
-                                <DataGridTextColumn Header="Location" Binding="{Binding StoreLocation}" Width="160" />
-                                <DataGridTextColumn Header="Expire Date" Binding="{Binding ExpDate}" Width="180" />
-                                <DataGridTextColumn Header="Expired" Binding="{Binding IsExpired}" Width="90" />
-                            </DataGrid.Columns>
-                        </DataGrid>
+                    <Expander Header="System Store Certificates" IsExpanded="True" Margin="0,0,0,20">
+                        <userControls:CertGrid ItemsSource="{Binding SystemStoreCertsResult}" MinHeight="128" />
                     </Expander>
-                    <Expander Header="File System Certificates" IsExpanded="False">
-                        <DataGrid AutoGenerateColumns="True" 
-                                  IsReadOnly="True"
-                                  ItemsSource="{Binding FileSystemCertsResult}">
-                        </DataGrid>
+
+                    <Button x:Name="BtnCfgScanDir" Content="Configure Scanning Directories" HorizontalAlignment="Left" Margin="0,0,0,10" Click="BtnCfgScanDir_OnClick" />
+                    <Expander Header="File System Certificates" IsExpanded="True">
+                        <userControls:CertGrid ItemsSource="{Binding FileSystemCertsResult}" MinHeight="128" />
                     </Expander>
                 </StackPanel>
             </ScrollViewer>
@@ -93,20 +66,28 @@
 
         <!--UI Overlay-->
         <Controls:ProgressRing IsActive="{Binding IsBusy}" 
+                               Height="64"
+                               Width="64"
                                Grid.Row="0" 
-                               Foreground="{StaticResource AccentColorBrush2}"
+                               Grid.RowSpan="2"
+                               Foreground="{StaticResource AccentColorBrush}"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" />
         
-         <simpleChildWindow:ChildWindow Grid.Row="0" x:Name="ChdAbout"
-                                         EnableDropShadow="True"
-                                         IsModal="True"
-                                         AllowMove="True"
-                                         ShowCloseButton="True"
-                                         Title="About"
-                                         GlowBrush="{DynamicResource AccentColorBrush}"
-                                         ChildWindowImage="None">
-            <Grid Margin="10" Width="550">
+         <simpleChildWindow:ChildWindow Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        x:Name="ChdAbout"
+                                        EnableDropShadow="True"
+                                        IsModal="True"
+                                        AllowMove="False"
+                                        ShowCloseButton="True"
+                                        Title="About"
+                                        GlowBrush="{DynamicResource AccentColorBrush}"
+                                        ChildWindowImage="None">
+             <simpleChildWindow:ChildWindow.OverlayBrush>
+                 <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+             </simpleChildWindow:ChildWindow.OverlayBrush>
+            <Grid Margin="10" Width="400">
                 <StackPanel>
                     <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,5" />
                     <TextBlock Text="{Binding Version}" FontSize="14" Margin="0,0,0,20" />
@@ -122,6 +103,29 @@
                     <TextBlock Text="Framework and License" FontWeight="Bold" Margin="0,10,0,5" />
                     <TextBlock Text="MvvmLight Toolkit (MIT)" />
                     <TextBlock Text="MahApp.Metro" Margin="0,0,0,10" />
+                </StackPanel>
+            </Grid>
+        </simpleChildWindow:ChildWindow>
+
+        <simpleChildWindow:ChildWindow Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       x:Name="ChdPaths"
+                                       EnableDropShadow="True"
+                                       IsModal="True"
+                                       AllowMove="False"
+                                       ShowCloseButton="True"
+                                       Title="Path"
+                                       IsOpen="{Binding IsPathConfigWindowOpen}"
+                                       GlowBrush="{DynamicResource AccentColorBrush}"
+                                       ChildWindowImage="None">
+            <simpleChildWindow:ChildWindow.OverlayBrush>
+                <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+            </simpleChildWindow:ChildWindow.OverlayBrush>
+            <Grid Margin="10" Width="400">
+                <StackPanel>
+                    <Label Content="Enter Paths (Seperated by ;)" FontWeight="Bold" />
+                    <TextBox Text="{Binding ScannerFolderPaths, Mode=TwoWay}" Margin="0,0,0,10" TextWrapping="Wrap" Height="60" />
+                    <Button Content="Save" HorizontalAlignment="Right" Command="{Binding CommandSavePath}" />
                 </StackPanel>
             </Grid>
         </simpleChildWindow:ChildWindow>

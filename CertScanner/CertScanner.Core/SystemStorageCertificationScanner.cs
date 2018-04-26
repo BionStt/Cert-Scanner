@@ -16,12 +16,14 @@ namespace CertScanner.Core
                 {
                     var certInfo = new CertInfo()
                     {
+                        Subject = storeCertificate.Subject,
                         FriendlyName = storeCertificate.FriendlyName,
                         Issuer = storeCertificate.Issuer,
                         Version = storeCertificate.Version,
-                        SerialNumber = storeCertificate.SerialNumber,
+                        Thumbprint = storeCertificate.Thumbprint,
                         StoreLocation = loc.ToString(),
-                        ExpDate = DateTime.Parse(storeCertificate.GetExpirationDateString())
+                        ExpDate = DateTime.Parse(storeCertificate.GetExpirationDateString()),
+                        Abstract = storeCertificate.ToString()
                     };
                     yield return certInfo;
                 }
