@@ -18,22 +18,25 @@ namespace CertScanner.Core
         {
             foreach (var targetPath in TargetPaths)
             {
-                var certFiles = Directory.GetFiles(targetPath, "*.cer", SearchOption.AllDirectories);
-                foreach (var certFile in certFiles)
+                if (Directory.Exists(targetPath))
                 {
-                    var cert = new X509Certificate2();
-                    cert.Import(certFile);
-
-                    var certInfo = new CertInfo()
+                    var certFiles = Directory.GetFiles(targetPath, "*.cer", SearchOption.AllDirectories);
+                    foreach (var certFile in certFiles)
                     {
-                        FriendlyName = cert.FriendlyName,
-                        Issuer = cert.Issuer,
-                        Version = cert.Version,
-                        SerialNumber = cert.SerialNumber,
-                        StoreLocation = certFile,
-                        ExpDate = DateTime.Parse(cert.GetExpirationDateString())
-                    };
-                    yield return certInfo;
+                        var cert = new X509Certificate2();
+                        cert.Import(certFile);
+
+                        var certInfo = new CertInfo()
+                        {
+                            FriendlyName = cert.FriendlyName,
+                            Issuer = cert.Issuer,
+                            Version = cert.Version,
+                            SerialNumber = cert.SerialNumber,
+                            StoreLocation = certFile,
+                            ExpDate = DateTime.Parse(cert.GetExpirationDateString())
+                        };
+                        yield return certInfo;
+                    }
                 }
             }
         }
