@@ -27,19 +27,31 @@
                 <Button Content="Options" Margin="0,0,10,0" />
                 <Button x:Name="BtnOpenCertMgr" Content="Windows Certification Manager" Command="{Binding CommandOpenCertMgr}" />
             </StackPanel>
-
-            <DataGrid AutoGenerateColumns="True" 
-                      BorderThickness="1" 
-                      BorderBrush="#CECECE"
-                      IsReadOnly="True"
-                      Grid.Row="1"
-                      ItemsSource="{Binding SystemStoreCerts}">
-            </DataGrid>
+            
+            <ScrollViewer Grid.Row="1" >
+                <StackPanel>
+                    <Expander Header="System Store Certificates" IsExpanded="True">
+                        <DataGrid AutoGenerateColumns="True" 
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding SystemStoreCertsResult}">
+                        </DataGrid>
+                    </Expander>
+                    <Expander Header="File System Certificates" IsExpanded="False">
+                        <DataGrid AutoGenerateColumns="True" 
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding FileSystemCertsResult}">
+                        </DataGrid>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
+        
+        <!--Status Bar-->
         <Grid Grid.Row="1" Background="{StaticResource AccentColorBrush}">
             <TextBlock Text="{Binding SystemInfo}" Foreground="White" Margin="10,5" />
         </Grid>
-        
+
+        <!--UI Overlay-->
         <Controls:ProgressRing IsActive="{Binding IsBusy}" 
                                Grid.Row="0" 
                                Foreground="{StaticResource AccentColorBrush2}"

@@ -15,15 +15,26 @@ namespace CertScanner.WindowsDesktop.ViewModel
     {
         public string SystemInfo { get; set; }
 
-        public SystemStorageCertificationScanner CertificationScanner { get; set; }
+        public SystemStorageCertificationScanner SysCertificationScanner { get; set; }
 
-        private ObservableCollection<CertInfo> _systemStoreCerts;
+        public FileSystemCertificationScanner FileSystemCertificationScanner { get; set; }
+
         private bool _isBusy;
 
-        public ObservableCollection<CertInfo> SystemStoreCerts
+        private ObservableCollection<CertInfo> _systemStoreCertsResult;
+
+        public ObservableCollection<CertInfo> SystemStoreCertsResult
         {
-            get { return _systemStoreCerts; }
-            set { _systemStoreCerts = value; RaisePropertyChanged(); }
+            get { return _systemStoreCertsResult; }
+            set { _systemStoreCertsResult = value; RaisePropertyChanged(); }
+        }
+
+        private ObservableCollection<CertInfo> _fileSystemCertsResult;
+
+        public ObservableCollection<CertInfo> FileSystemCertsResult
+        {
+            get { return _fileSystemCertsResult; }
+            set { _fileSystemCertsResult = value; RaisePropertyChanged(); }
         }
 
         public RelayCommand CommandOpenCertMgr { get; set; }
@@ -42,7 +53,10 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         public MainViewModel()
         {
-            CertificationScanner = new SystemStorageCertificationScanner();
+            SysCertificationScanner = new SystemStorageCertificationScanner();
+            FileSystemCertificationScanner = new FileSystemCertificationScanner();
+            FileSystemCertificationScanner.TargetPaths.Add(@"C:\Certs"); // for debug
+
             SystemInfo = $"MachineName: {Environment.MachineName}, OS Version: {Environment.OSVersion}";
             CommandOpenCertMgr = new RelayCommand(() => { Process.Start("certmgr.msc"); });
             CommandRefresh = new RelayCommand(async () => { await RefreshDataAsync(); });
@@ -50,17 +64,24 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         public async Task InitDataAsync()
         {
-            IsBusy = true;
-            await Task.Delay(2000); // for UI debug
             await RefreshDataAsync();
-            IsBusy = false;
         }
 
         private async Task RefreshDataAsync()
         {
-            SystemStoreCerts = new ObservableCollection<CertInfo>();
-            SystemStoreCerts = CertificationScanner.ScanCertificates().ToObservableCollection();
+            IsBusy = true;
+
+            await Task.Delay(2000); // for UI debug
+            SystemStoreCertsResult = new ObservableCollection<CertInfo>();
+            var sysCerts = SysCertificationScanner.ScanCertificates();
+            SystemStoreCertsResult = sysCerts.ToObservableCollection();
+
+            var fsCerts = FileSystemCertificationScanner.ScanCertificates();
+            FileSystemCertsResult = fsCerts.ToObservableCollection();
+
             await Task.Yield();
+
+            IsBusy = false;
         }
     }
 }
