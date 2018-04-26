@@ -87,7 +87,7 @@ namespace CertScanner.WindowsDesktop.ViewModel
             var dirs = ScannerFolderPaths.Split(';');
             FileSystemCertificationScanner.TargetPaths.AddRange(dirs);
 
-            SystemInfo = $"MachineName: {Environment.MachineName}, OS Version: {Environment.OSVersion}";
+            SystemInfo = $"Machine Name: {Environment.MachineName}, OS Version: {Environment.OSVersion}, User Name: {Environment.UserName}";
             CommandOpenCertMgr = new RelayCommand(() => { Process.Start("certmgr.msc"); });
             CommandRefresh = new RelayCommand(async () => { await RefreshDataAsync(); });
             CommandSavePath = new RelayCommand(() => { SavePath(); });

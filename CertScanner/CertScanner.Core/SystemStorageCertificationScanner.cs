@@ -10,24 +10,27 @@ namespace CertScanner.Core
         {
             foreach (StoreLocation loc in Enum.GetValues(typeof(StoreLocation)))
             {
-                X509Store store = new X509Store(loc);
-                store.Open(OpenFlags.ReadOnly);
-                foreach (var storeCertificate in store.Certificates)
+                foreach (StoreName n in Enum.GetValues(typeof(StoreName)))
                 {
-                    var certInfo = new CertInfo()
+                    X509Store store = new X509Store(n, loc);
+                    store.Open(OpenFlags.ReadOnly);
+                    foreach (var storeCertificate in store.Certificates)
                     {
-                        Subject = storeCertificate.Subject,
-                        FriendlyName = storeCertificate.FriendlyName,
-                        Issuer = storeCertificate.Issuer,
-                        Version = storeCertificate.Version,
-                        Thumbprint = storeCertificate.Thumbprint,
-                        StoreLocation = loc.ToString(),
-                        ExpDate = DateTime.Parse(storeCertificate.GetExpirationDateString()),
-                        Abstract = storeCertificate.ToString()
-                    };
-                    yield return certInfo;
+                        var certInfo = new CertInfo()
+                        {
+                            Subject = storeCertificate.Subject,
+                            FriendlyName = storeCertificate.FriendlyName,
+                            Issuer = storeCertificate.Issuer,
+                            Version = storeCertificate.Version,
+                            Thumbprint = storeCertificate.Thumbprint,
+                            StoreLocation = loc.ToString(),
+                            ExpDate = DateTime.Parse(storeCertificate.GetExpirationDateString()),
+                            Abstract = storeCertificate.ToString()
+                        };
+                        yield return certInfo;
+                    }
+                    store.Close();
                 }
-                store.Close();
             }
         }
     }

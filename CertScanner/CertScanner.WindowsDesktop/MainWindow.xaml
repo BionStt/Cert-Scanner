@@ -14,7 +14,7 @@
         Loaded="MainWindow_OnLoaded"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="Certification File Scanner for Windows" Height="800" Width="1280">
-    
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button x:Name="BtnAbout" Click="BtnAbout_OnClick">
@@ -45,18 +45,20 @@
                 <Button x:Name="BtnOpenCertMgr" Content="Windows Certification Manager" Command="{Binding CommandOpenCertMgr}" />
             </StackPanel>
 
-            <ScrollViewer Grid.Row="1" >
-                <StackPanel>
-                    <Expander Header="System Store Certificates" IsExpanded="True" Margin="0,0,0,20">
-                        <userControls:CertGrid ItemsSource="{Binding SystemStoreCertsResult}" MinHeight="128" />
-                    </Expander>
-
-                    <Button x:Name="BtnCfgScanDir" Content="Configure Scanning Directories" HorizontalAlignment="Left" Margin="0,0,0,10" Click="BtnCfgScanDir_OnClick" />
-                    <Expander Header="File System Certificates" IsExpanded="True">
-                        <userControls:CertGrid ItemsSource="{Binding FileSystemCertsResult}" MinHeight="128" />
-                    </Expander>
-                </StackPanel>
-            </ScrollViewer>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Expander Header="System Store Certificates" IsExpanded="True" Margin="0,0,0,20">
+                    <userControls:CertGrid ItemsSource="{Binding SystemStoreCertsResult}" MinHeight="128" />
+                </Expander>
+                <Button Grid.Row="1" x:Name="BtnCfgScanDir" Content="Configure Scanning Directories" HorizontalAlignment="Left" Margin="0,0,0,10" Click="BtnCfgScanDir_OnClick" />
+                <Expander Grid.Row="2" Header="File System Certificates" IsExpanded="True">
+                    <userControls:CertGrid ItemsSource="{Binding FileSystemCertsResult}" MinHeight="128" />
+                </Expander>
+            </Grid>
         </Grid>
 
         <!--Status Bar-->
@@ -73,8 +75,8 @@
                                Foreground="{StaticResource AccentColorBrush}"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" />
-        
-         <simpleChildWindow:ChildWindow Grid.Row="0"
+
+        <simpleChildWindow:ChildWindow Grid.Row="0"
                                         Grid.RowSpan="2"
                                         x:Name="ChdAbout"
                                         EnableDropShadow="True"
@@ -84,9 +86,9 @@
                                         Title="About"
                                         GlowBrush="{DynamicResource AccentColorBrush}"
                                         ChildWindowImage="None">
-             <simpleChildWindow:ChildWindow.OverlayBrush>
-                 <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
-             </simpleChildWindow:ChildWindow.OverlayBrush>
+            <simpleChildWindow:ChildWindow.OverlayBrush>
+                <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+            </simpleChildWindow:ChildWindow.OverlayBrush>
             <Grid Margin="10" Width="400">
                 <StackPanel>
                     <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,5" />
