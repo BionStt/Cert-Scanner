@@ -37,6 +37,14 @@ namespace CertScanner.WindowsDesktop.ViewModel
             set { _fileSystemCertsResult = value; RaisePropertyChanged(); }
         }
 
+        private string _version;
+
+        public string Version
+        {
+            get => _version;
+            set { _version = value; RaisePropertyChanged(); }
+        }
+
         public RelayCommand CommandOpenCertMgr { get; set; }
 
         public RelayCommand CommandRefresh { get; set; }
@@ -53,6 +61,8 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         public MainViewModel()
         {
+            Version = GetType().Assembly.GetName().Version.ToString();
+
             SysCertificationScanner = new SystemStorageCertificationScanner();
             FileSystemCertificationScanner = new FileSystemCertificationScanner();
             FileSystemCertificationScanner.TargetPaths.Add(@"C:\Certs"); // for debug

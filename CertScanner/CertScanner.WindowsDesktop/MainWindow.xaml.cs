@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,17 @@ namespace CertScanner.WindowsDesktop
         private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             await ViewModel.InitDataAsync();
+        }
+
+        private void BtnAbout_OnClick(object sender, RoutedEventArgs e)
+        {
+            ChdAbout.IsOpen = true;
+        }
+
+        private void HyperlinkEdi_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }

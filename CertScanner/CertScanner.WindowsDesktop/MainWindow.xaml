@@ -5,12 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CertScanner.WindowsDesktop"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:helpers="clr-namespace:CertScanner.WindowsDesktop.Helpers"
+        xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
         mc:Ignorable="d"
-        GlowBrush="#CC008A00"
+        GlowBrush="{DynamicResource AccentColorBrush}"
         Loaded="MainWindow_OnLoaded"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="Certification File Scanner for Windows" Height="800" Width="1280">
+    
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="BtnAbout" Click="BtnAbout_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="about" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -82,5 +97,33 @@
                                Foreground="{StaticResource AccentColorBrush2}"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" />
+        
+         <simpleChildWindow:ChildWindow Grid.Row="0" x:Name="ChdAbout"
+                                         EnableDropShadow="True"
+                                         IsModal="True"
+                                         AllowMove="True"
+                                         ShowCloseButton="True"
+                                         Title="About"
+                                         GlowBrush="{DynamicResource AccentColorBrush}"
+                                         ChildWindowImage="None">
+            <Grid Margin="10" Width="550">
+                <StackPanel>
+                    <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,5" />
+                    <TextBlock Text="{Binding Version}" FontSize="14" Margin="0,0,0,20" />
+
+                    <TextBlock Text="Contributors" FontWeight="Bold" Margin="0,0,0,5" />
+                    <TextBlock>
+                         <Hyperlink NavigateUri="http://edi.wang" RequestNavigate="HyperlinkEdi_RequestNavigate">
+                            Edi Wang
+                        </Hyperlink>
+                    </TextBlock>
+
+                    <Border Height="1" Background="#CCC" BorderThickness="0" Margin="0,10,0,0" />
+                    <TextBlock Text="Framework and License" FontWeight="Bold" Margin="0,10,0,5" />
+                    <TextBlock Text="MvvmLight Toolkit (MIT)" />
+                    <TextBlock Text="MahApp.Metro" Margin="0,0,0,10" />
+                </StackPanel>
+            </Grid>
+        </simpleChildWindow:ChildWindow>
     </Grid>
 </Controls:MetroWindow>
