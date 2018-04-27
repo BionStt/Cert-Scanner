@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -83,7 +84,7 @@ namespace CertScanner.WindowsDesktop.ViewModel
             SysCertificationScanner = new SystemStorageCertificationScanner();
             FileSystemCertificationScanner = new FileSystemCertificationScanner();
 
-            ScannerFolderPaths = @"C:\Certs;D:\Something"; // for debug
+            ScannerFolderPaths = ConfigurationManager.AppSettings["Path"];
 
             var dirs = ScannerFolderPaths.Split(';');
             FileSystemCertificationScanner.TargetPaths.AddRange(dirs);
@@ -101,7 +102,7 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         private void SavePath()
         {
-            // TODO
+            UpdateSettings();
             IsPathConfigWindowOpen = false;
         }
 
@@ -132,6 +133,14 @@ namespace CertScanner.WindowsDesktop.ViewModel
             await Task.WhenAll(tasks);
 
             IsBusy = false;
+        }
+
+        private void UpdateSettings()
+        {
+            Configuration oConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            oConfig.AppSettings.Settings["Path"].Value = ScannerFolderPaths;
+            oConfig.Save(ConfigurationSaveMode.Full);
+            ConfigurationManager.RefreshSection("AppSettings");
         }
     }
 }
