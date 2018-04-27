@@ -29,40 +29,58 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Margin="10,10,10,0">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BtnOpenCertMgr" 
+                        Content="Windows Certification Manager" 
+                        Command="{Binding CommandOpenCertMgr}" 
+                        Margin="0,0,10,0" 
+                        HorizontalAlignment="Left" />
 
-        <Grid Grid.Row="0" Margin="10">
+                <Button x:Name="BtnCfgScanDir" 
+                        Content="Configure Scanning Directories" 
+                        Margin="0,0,10,0" 
+                        Click="BtnCfgScanDir_OnClick" />
+            </StackPanel>
+            <Button Content="Refresh" 
+                    Command="{Binding CommandRefresh}" 
+                    Margin="0,0,0,0" HorizontalAlignment="Right" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
-                <Button Content="Refresh" Command="{Binding CommandRefresh}" />
-                <Border Width="1" Background="#CECECE" Height="22" Margin="10,0" />
-                <Button x:Name="BtnOpenCertMgr" Content="Windows Certification Manager" Command="{Binding CommandOpenCertMgr}" />
-            </StackPanel>
+            <Expander IsExpanded="True" Margin="0,0,0,20">
+                <Expander.Header>
+                    <Grid Margin="0,0,10,0">
+                        <Label Content="SYSTEM STORE" FontSize="13" Foreground="White" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding SystemStoreCertsResult.Count}" HorizontalAlignment="Right" FontSize="13"  Foreground="White" VerticalAlignment="Center"/>
+                    </Grid>
+                </Expander.Header>
+                <userControls:CertGrid ItemsSource="{Binding SystemStoreCertsResult}" MinHeight="128" />
+            </Expander>
 
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Expander Header="System Store Certificates" IsExpanded="True" Margin="0,0,0,20">
-                    <userControls:CertGrid ItemsSource="{Binding SystemStoreCertsResult}" MinHeight="128" />
-                </Expander>
-                <Button Grid.Row="1" x:Name="BtnCfgScanDir" Content="Configure Scanning Directories" HorizontalAlignment="Left" Margin="0,0,0,10" Click="BtnCfgScanDir_OnClick" />
-                <Expander Grid.Row="2" Header="File System Certificates" IsExpanded="True">
-                    <userControls:CertGrid ItemsSource="{Binding FileSystemCertsResult}" MinHeight="128" />
-                </Expander>
-            </Grid>
+            <Expander Grid.Row="1" IsExpanded="True">
+                <Expander.Header>
+                    <Grid Margin="0,0,10,0">
+                        <Label Content="FILE SYSTEM" FontSize="13" Foreground="White" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding FileSystemCertsResult.Count}" HorizontalAlignment="Right" FontSize="13"  Foreground="White" VerticalAlignment="Center"/>
+                    </Grid>
+                </Expander.Header>
+                <userControls:CertGrid ItemsSource="{Binding FileSystemCertsResult}" MinHeight="128" />
+            </Expander>
         </Grid>
 
         <!--Status Bar-->
-        <Grid Grid.Row="1" Background="{StaticResource AccentColorBrush}">
+        <Grid Grid.Row="2" Background="{StaticResource AccentColorBrush}">
             <TextBlock Text="{Binding SystemInfo}" Foreground="White" Margin="10,5" />
         </Grid>
 
@@ -71,13 +89,12 @@
                                Height="64"
                                Width="64"
                                Grid.Row="0" 
-                               Grid.RowSpan="2"
+                               Grid.RowSpan="3"
                                Foreground="{StaticResource AccentColorBrush}"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" />
-
         <simpleChildWindow:ChildWindow Grid.Row="0"
-                                        Grid.RowSpan="2"
+                                        Grid.RowSpan="3"
                                         x:Name="ChdAbout"
                                         EnableDropShadow="True"
                                         IsModal="True"
@@ -108,9 +125,8 @@
                 </StackPanel>
             </Grid>
         </simpleChildWindow:ChildWindow>
-
         <simpleChildWindow:ChildWindow Grid.Row="0"
-                                       Grid.RowSpan="2"
+                                       Grid.RowSpan="3"
                                        x:Name="ChdPaths"
                                        EnableDropShadow="True"
                                        IsModal="True"
