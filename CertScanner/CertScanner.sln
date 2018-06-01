@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9923044C-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertScanner.WindowsDesktop", "CertScanner.WindowsDesktop\CertScanner.WindowsDesktop.csproj", "{6D355797-7188-44A3-BED9-1D5CC0113776}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CertScannerInstaller", "CertScannerInstaller\CertScannerInstaller.vdproj", "{8FC7444A-B914-4ACE-9B3D-C9CEC44B1A0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,8 @@ Global
 		{6D355797-7188-44A3-BED9-1D5CC0113776}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D355797-7188-44A3-BED9-1D5CC0113776}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D355797-7188-44A3-BED9-1D5CC0113776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC7444A-B914-4ACE-9B3D-C9CEC44B1A0D}.Debug|Any CPU.ActiveCfg = Debug
+		{8FC7444A-B914-4ACE-9B3D-C9CEC44B1A0D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
