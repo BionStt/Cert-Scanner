@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using CertScanner.Core.Annotations;
 using CertScanner.Core.NetStd;
+using CertScanner.WindowsDesktop.Annotations;
 using GalaSoft.MvvmLight.Command;
 
-namespace CertScanner.Core
+namespace CertScanner.WindowsDesktop.Models
 {
     public class CertInfoWpf : CertInfo, INotifyPropertyChanged
     {

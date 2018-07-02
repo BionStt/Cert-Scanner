@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using CertScanner.Core;
 using CertScanner.Core.NetStd;
+using CertScanner.WindowsDesktop.Models;
 using Edi.ExtensionMethods;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;

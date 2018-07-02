@@ -96,6 +96,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\DataGridExtension.cs" />
+    <Compile Include="Models\CertInfoWpf.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="UserControls\CertGrid.xaml.cs">
       <DependentUpon>CertGrid.xaml</DependentUpon>
     </Compile>
@@ -149,10 +151,6 @@
     <ProjectReference Include="..\CertScanner.Core.NetStd\CertScanner.Core.NetStd.csproj">
       <Project>{c735ecd0-2196-4422-ad18-06b63139314f}</Project>
       <Name>CertScanner.Core.NetStd</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CertScanner.Core\CertScanner.Core.csproj">
-      <Project>{811165d9-7463-4b89-a3e6-75a0f2443c2f}</Project>
-      <Name>CertScanner.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
