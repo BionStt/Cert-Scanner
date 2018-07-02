@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using CertScanner.Core.NetStd;
+﻿using System.Security.Cryptography.X509Certificates;
 
-namespace CertScanner.Core
+namespace CertScanner.Core.NetStd
 {
     public class CertReader
     {
