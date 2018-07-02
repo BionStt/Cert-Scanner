@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-
-using CertScanner.UniversalWindows.Models;
-using CertScanner.UniversalWindows.Services;
-
+using CertScanner.Core.NetStd;
+using Edi.UWP.Helpers.Extensions;
 using GalaSoft.MvvmLight;
 
 namespace CertScanner.UniversalWindows.ViewModels
 {
     public class SystemCertsViewModel : ViewModelBase
     {
-        public ObservableCollection<SampleOrder> Source
+        public SystemStorageCertificationScanner SysCertificationScanner { get; set; }
+
+        public SystemCertsViewModel()
         {
-            get
-            {
-                // TODO WTS: Replace this with your actual data
-                return SampleDataService.GetGridSampleData();
-            }
+            SysCertificationScanner = new SystemStorageCertificationScanner();
         }
+
+        public ObservableCollection<CertInfo> Source => SysCertificationScanner.ScanCertificates().ToObservableCollection();
     }
 }
