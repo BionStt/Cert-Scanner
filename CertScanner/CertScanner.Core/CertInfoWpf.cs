@@ -9,35 +9,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CertScanner.Core.Annotations;
+using CertScanner.Core.NetStd;
 using GalaSoft.MvvmLight.Command;
 
 namespace CertScanner.Core
 {
-    public class CertInfo : INotifyPropertyChanged
+    public class CertInfoWpf : CertInfo, INotifyPropertyChanged
     {
-        public string Subject { get; set; }
-
-        public string FriendlyName { get; set; }
-
-        public string Issuer { get; set; }
-
-        public string Thumbprint { get; set; }
-
-        public int Version { get; set; }
-
-        public string StoreLocation { get; set; }
-
-        public DateTime ExpDate { get; set; }
-
-        public bool IsExpired => ExpDate < DateTime.Now;
-
-        public string Abstract { get; set; }
-
         public ICommand CertDetail { get; set; }
 
         public ICommand OpenCertificateLocation { get; set; }
 
-        public CertInfo()
+        public CertInfoWpf()
         {
             OpenCertificateLocation = new RelayCommand(() =>
             {

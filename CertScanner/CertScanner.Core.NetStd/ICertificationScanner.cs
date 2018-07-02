@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CertScanner.Core
+namespace CertScanner.Core.NetStd
 {
     public interface ICertificationScanner
     {

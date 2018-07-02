@@ -146,6 +146,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CertScanner.Core.NetStd\CertScanner.Core.NetStd.csproj">
+      <Project>{c735ecd0-2196-4422-ad18-06b63139314f}</Project>
+      <Name>CertScanner.Core.NetStd</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CertScanner.Core\CertScanner.Core.csproj">
       <Project>{811165d9-7463-4b89-a3e6-75a0f2443c2f}</Project>
       <Name>CertScanner.Core</Name>

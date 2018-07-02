@@ -57,18 +57,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CertificationScanner.cs" />
-    <Compile Include="CertInfo.cs" />
-    <Compile Include="CertReader.cs" />
-    <Compile Include="FileSystemCertificationScanner.cs" />
-    <Compile Include="ICertificationScanner.cs" />
+    <Compile Include="CertInfoWpf.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemStorageCertificationScanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CertScanner.Core.NetStd\CertScanner.Core.NetStd.csproj">
+      <Project>{c735ecd0-2196-4422-ad18-06b63139314f}</Project>
+      <Name>CertScanner.Core.NetStd</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

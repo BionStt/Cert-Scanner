@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using CertScanner.Core;
+using CertScanner.Core.NetStd;
 using Edi.ExtensionMethods;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -23,17 +24,17 @@ namespace CertScanner.WindowsDesktop.ViewModel
 
         private bool _isBusy;
 
-        private ObservableCollection<CertInfo> _systemStoreCertsResult;
+        private ObservableCollection<CertInfoWpf> _systemStoreCertsResult;
 
-        public ObservableCollection<CertInfo> SystemStoreCertsResult
+        public ObservableCollection<CertInfoWpf> SystemStoreCertsResult
         {
             get { return _systemStoreCertsResult; }
             set { _systemStoreCertsResult = value; RaisePropertyChanged(); }
         }
 
-        private ObservableCollection<CertInfo> _fileSystemCertsResult;
+        private ObservableCollection<CertInfoWpf> _fileSystemCertsResult;
 
-        public ObservableCollection<CertInfo> FileSystemCertsResult
+        public ObservableCollection<CertInfoWpf> FileSystemCertsResult
         {
             get { return _fileSystemCertsResult; }
             set { _fileSystemCertsResult = value; RaisePropertyChanged(); }
@@ -111,21 +112,41 @@ namespace CertScanner.WindowsDesktop.ViewModel
             IsBusy = true;
 
             // 1. Clear Old Info
-            SystemStoreCertsResult = new ObservableCollection<CertInfo>();
-            FileSystemCertsResult = new ObservableCollection<CertInfo>();
+            SystemStoreCertsResult = new ObservableCollection<CertInfoWpf>();
+            FileSystemCertsResult = new ObservableCollection<CertInfoWpf>();
 
             // 2. Create Scanning Tasks
             var tasks = new List<Task>();
 
             var t1 = Task.Run(() =>
             {
-                var sysCerts = SysCertificationScanner.ScanCertificates();
+                var sysCerts = SysCertificationScanner.ScanCertificates().Select(c => new CertInfoWpf()
+                {
+                    Abstract = c.Abstract,
+                    ExpDate = c.ExpDate,
+                    FriendlyName = c.FriendlyName,
+                    Issuer = c.Issuer,
+                    StoreLocation = c.StoreLocation,
+                    Subject = c.Subject,
+                    Thumbprint = c.Thumbprint,
+                    Version = c.Version
+                });
                 SystemStoreCertsResult = sysCerts.ToObservableCollection();
             });
 
             var t2 = Task.Run(() =>
             {
-                var fsCerts = FileSystemCertificationScanner.ScanCertificates();
+                var fsCerts = FileSystemCertificationScanner.ScanCertificates().Select(c => new CertInfoWpf()
+                {
+                    Abstract = c.Abstract,
+                    ExpDate = c.ExpDate,
+                    FriendlyName = c.FriendlyName,
+                    Issuer = c.Issuer,
+                    StoreLocation = c.StoreLocation,
+                    Subject = c.Subject,
+                    Thumbprint = c.Thumbprint,
+                    Version = c.Version
+                });
                 FileSystemCertsResult = fsCerts.ToObservableCollection();
             });
 
